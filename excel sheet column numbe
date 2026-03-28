@@ -1,0 +1,31 @@
+class Solution:
+    """
+    LeetCode problem 171: Excel Sheet Column Number
+    Given a string columnTitle that represents the column title as appears in an Excel sheet, 
+    return its corresponding column number.
+    """
+    def titleToNumber(self, columnTitle: str) -> int:
+        """
+        Converts an Excel column title string to its corresponding column number.
+
+        Args:
+            columnTitle: The Excel column title string (e.g., "A", "AB", "ZY").
+
+        Returns:
+            The corresponding column number (1-indexed).
+        """
+        ans = 0
+        for char in columnTitle:
+            # Convert the character to its 1-based value (A=1, B=2, ..., Z=26)
+            char_value = ord(char) - ord('A') + 1
+            # Apply the base-26 conversion formula: 
+            # Shift the current total left by one position (multiply by 26) and add the current char's value
+            ans = ans * 26 + char_value
+        return ans
+
+# Example Usage:
+solution = Solution()
+print(f"'A' -> {solution.titleToNumber('A')}")     # Output: 'A' -> 1
+print(f"'AB' -> {solution.titleToNumber('AB')}")   # Output: 'AB' -> 28
+print(f"'ZY' -> {solution.titleToNumber('ZY')}")   # Output: 'ZY' -> 701
+print(f"'FXSHRXW' -> {solution.titleToNumber('FXSHRXW')}") # Max possible input
