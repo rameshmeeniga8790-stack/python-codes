@@ -1,0 +1,53 @@
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        # Handle edge case where one of the numbers is "0"
+        if num1 == "0" or num2 == "0":
+            return "0"
+
+        m, n = len(num1), len(num2)
+        # Initialize a result array with zeros, size m + n
+        # The maximum length of the product is m + n
+        result = [0] * (m + n)
+
+        # Iterate through num1 and num2 from right to left
+        for i in reversed(range(m)):
+            for j in reversed(range(n)):
+                # Convert characters to integers
+                digit1 = int(num1[i])
+                digit2 = int(num2[j])
+
+                # Calculate the product and the position in the result array
+                # The product of digits at num1[i] and num2[j] contributes to 
+                # positions i + j + 1 (ones place) and i + j (tens place)
+                prod = digit1 * digit2
+                
+                # Add to the existing value at the ones place position
+                temp_sum = prod + result[i + j + 1]
+
+                # Store the ones digit of the sum
+                result[i + j + 1] = temp_sum % 10
+                # Add the carry to the tens place position
+                result[i + j] += temp_sum // 10
+
+        # Convert the result array to a string, skipping any leading zeros
+        res_str = []
+        # Find the start index (first non-zero digit)
+        start_index = 0
+        while start_index < len(result) and result[start_index] == 0:
+            start_index += 1
+        
+        # Build the final string
+        for i in range(start_index, len(result)):
+            res_str.append(str(result[i]))
+        
+        return "".join(res_str)
+
+# Example Usage (as in LeetCode test cases)
+sol = Solution()
+num1_1, num2_1 = "2", "3"
+print(f"Input: num1 = \"{num1_1}\", num2 = \"{num2_1}\"")
+print(f"Output: \"{sol.multiply(num1_1, num2_1)}\"") # Output: "6"
+
+num1_2, num2_2 = "123", "456"
+print(f"Input: num1 = \"{num1_2}\", num2 = \"{num2_2}\"")
+print(f"Output: \"{sol.multiply(num1_2, num2_2)}\"") # Output: "56088"
