@@ -1,0 +1,35 @@
+import math
+
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        """
+        Calculates the k-th lexicographical permutation of numbers [1, 2, ..., n].
+        """
+        ans = []
+        # Create a list of numbers from 1 to n
+        nums = [i + 1 for i in range(n)]
+        
+        # Adjust k to be 0-indexed
+        k -= 1
+        
+        # Iterate from n down to 1 to find each digit
+        for i in reversed(range(n)):
+            # Calculate the factorial of the remaining digits
+            # Using math.factorial is clear and handles potential large numbers in Python
+            fact = math.factorial(i)
+            
+            # Determine the index of the digit to pick for the current position
+            # The number of permutations starting with any given digit is fact
+            j = k // fact
+            
+            # Add the selected digit to the answer
+            ans.append(str(nums[j]))
+            
+            # Remove the used digit from the list of available numbers
+            nums.pop(j)
+            
+            # Update k for the next iteration (modulo the current factorial)
+            k %= fact
+            
+        return "".join(ans)
+
